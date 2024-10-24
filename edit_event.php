@@ -23,9 +23,21 @@ if (isset($_POST['edit_event'])) {
     $event_description = $_POST['event_description'];
     $max_participants = $_POST['max_participants'];
     $status = $_POST['status'];
+    $image_lama = $_POST['image_lama'];
 
-    $stmt = $conn->prepare("UPDATE events SET event_name = ?, event_date = ?, event_time = ?, location = ?, description = ?, max_participants = ?, status = ? WHERE event_id = ?");
-    $stmt->bind_param("sssssiss", $event_name, $event_date, $event_time, $event_location, $event_description, $max_participants, $status, $event_id);
+    // Cek apakah user pilih gambar baru atau tidak
+    if ($_FILES['image']['error'] === 4) {
+        $image = $image_lama; // Jika tidak pilih, pakai gambar lama
+    } else {
+        $image = upload_image(); // Jika pilih, upload gambar baru
+        if (!$image) {
+            $image = $image_lama;
+        }
+    }
+
+    // Query untuk update data event
+    $stmt = $conn->prepare("UPDATE events SET event_name = ?, event_date = ?, event_time = ?, location = ?, description = ?, max_participants = ?, status = ?, image = ? WHERE event_id = ?");
+    $stmt->bind_param("sssssissi", $event_name, $event_date, $event_time, $event_location, $event_description, $max_participants, $status, $image, $event_id);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Event updated successfully.";
@@ -46,7 +58,8 @@ if (isset($_POST['edit_event'])) {
 <body>
     <h1>Edit Event</h1>
 
-    <form action="edit_event.php?event_id=<?php echo $event['event_id']; ?>" method="POST">
+    <form action="edit_event.php?event_id=<?php echo $event['event_id']; ?>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="image_lama" value="<?php echo $event['image']; ?>"> <!-- Menyimpan gambar lama -->
         <label for="event_name">Event Name:</label><br>
         <input type="text" id="event_name" name="event_name" value="<?php echo $event['event_name']; ?>" required><br>
         
@@ -71,7 +84,11 @@ if (isset($_POST['edit_event'])) {
             <option value="closed" <?php echo ($event['status'] == 'closed') ? 'selected' : ''; ?>>Closed</option>
             <option value="canceled" <?php echo ($event['status'] == 'canceled') ? 'selected' : ''; ?>>Canceled</option>
         </select><br><br>
-        
+    
+        <!-- Tambahkan input untuk file gambar -->
+       <label for="image">Change Event Image:</label><br>
+       <input type="file" id="image" name="image" accept="image/*"><br><br>
+
         <input type="submit" name="edit_event" value="Update Event">
     </form>
 

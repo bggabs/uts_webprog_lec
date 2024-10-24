@@ -19,12 +19,9 @@ if (isset($_POST['add_event'])) {
     $status = $_POST['status'];
 
     // Penanganan upload gambar
-    $image = $_FILES['image']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($image);
+    $image = upload_image(); // fungsi upload image
 
-    // Pindahkan file gambar ke direktori upload
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+    if ($image) {
         // Siapkan query untuk menambah data ke database
         $stmt = $conn->prepare("INSERT INTO events (event_name, event_date, event_time, location, description, max_participants, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssiss", $event_name, $event_date, $event_time, $event_location, $event_description, $max_participants, $status, $image);
@@ -38,6 +35,47 @@ if (isset($_POST['add_event'])) {
         }
     } else {
         echo "Failed to upload image.";
+    }
+}
+
+// Fungsi upload image
+function upload_image() {
+    $namaFile = $_FILES['image']['name'];
+    $ukuranFile = $_FILES['image']['size'];
+    $error = $_FILES['image']['error'];
+    $tmpName = $_FILES['image']['tmp_name'];
+
+    // Cek apakah tidak ada gambar yang diupload
+    if ($error === 4) {
+        echo "<script>alert('Pilih gambar terlebih dahulu!');</script>";
+        return false;
+    }
+
+    // Cek apakah yang diupload adalah gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = strtolower(pathinfo($namaFile, PATHINFO_EXTENSION));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>alert('Yang anda upload bukan gambar!');</script>";
+        return false;
+    }
+
+    // Cek jika ukurannya terlalu besar (misal, 2MB)
+    if ($ukuranFile > 2000000) {
+        echo "<script>alert('Ukuran gambar terlalu besar!');</script>";
+        return false;
+    }
+
+    // Generate nama gambar baru yang unik
+    $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+    $target_dir = "uploads/";
+    $target_file = $target_dir . $namaFileBaru;
+
+    // Upload file
+    if (move_uploaded_file($tmpName, $target_file)) {
+        return $namaFileBaru;
+    } else {
+        return false;
     }
 }
 
@@ -120,6 +158,7 @@ $events = $conn->query($query);
     <h2>Existing Events</h2>
     <table border="1">
         <tr>
+            <th>Event ID</th>
             <th>Event Name</th>
             <th>Description</th>
             <th>Date</th>
@@ -133,6 +172,7 @@ $events = $conn->query($query);
         </tr>
         <?php while ($row = $events->fetch_assoc()) { ?>
         <tr>
+            <td><?php echo $row['event_id']; ?></td>  
             <td><?php echo $row['event_name']; ?></td>
             <td><?php echo $row['description']; ?></td>            
             <td><?php echo $row['event_date']; ?></td>

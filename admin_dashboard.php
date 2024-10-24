@@ -53,8 +53,8 @@ $events = $conn->query($query);
     <!-- Navbar -->
     <nav>
         <ul>
-            <li><a href="event_management.php">Manage Events</a></li>
-            <li><a href="user_management.php">Manage Users</a></li>
+            <li><a href="event_management.php">Events Management</a></li>
+            <li><a href="user_management.php">Users Registration</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </nav>
@@ -100,6 +100,7 @@ $events = $conn->query($query);
 <h2>Existing Events</h2>
 <table border="1">
     <tr>
+        <th>No</th>
         <th>Event Name</th>
         <th>Date</th>
         <th>Max Participants</th>
@@ -108,8 +109,11 @@ $events = $conn->query($query);
         <th>Image</th>
         <th>Actions</th>    
     </tr>
-    <?php while ($row = $events->fetch_assoc()) { ?>
+    <?php     
+    $no_urut = 1;
+    while ($row = $events->fetch_assoc()) { ?>
     <tr>
+        <td><?php echo $no_urut++; ?></td>
         <td><?php echo $row['event_name']; ?></td>
         <td><?php echo $row['event_date']; ?></td>
         <td><?php echo $row['max_participants']; ?></td>

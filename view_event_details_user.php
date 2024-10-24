@@ -2,7 +2,7 @@
 session_start();
 require 'db_connection.php';
 
-if ($_SESSION['role'] !== 'admin') {
+if ($_SESSION['role'] !== 'user') {
     header("Location: login.php");
     exit();
 }
@@ -21,6 +21,15 @@ if (isset($_GET['event_id'])) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="user_dashboard.php">Event Browsing</a></li>
+        <li><a href="registered_events.php">Event Registration</a></li>
+        <li><a href="user_profile.php">User Profile</a></li>
+        <li><a href="logout.php">Logout</a></li>
+    </ul>
+</nav>
+
     <h1>Event Details</h1>
     <h2><strong>Event ID</strong> <?php echo $event['event_id']; ?></h2>
 
@@ -33,9 +42,5 @@ if (isset($_GET['event_id'])) {
     <p><strong>Status:</strong> <?php echo ucfirst($event['status']); ?></p>
 
     <img src="uploads/<?php echo $event['image']; ?>" width="200">
-
-    <div>
-        <a href="admin_dashboard.php">Back to Dashboard</a>
-    </div>
 </body>
 </html>

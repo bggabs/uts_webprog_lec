@@ -78,7 +78,7 @@ $events = $conn->query($query);
             </div>
         </div>
 
-        <form action="event_management.php" method="POST">
+        <form action="user_dashboard.php" method="POST">
             <h2>Filter Events</h2>
             <label for="filter_date">Filter by Date:</label>
             <input type="date" id="filter_date" name="filter_date">

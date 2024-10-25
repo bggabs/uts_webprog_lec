@@ -1,0 +1,122 @@
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li:first-child {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 28px; /* Ukuran navbar setara dengan h1 */
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+/* Style navbar di kanan dengan jarak */
+nav ul li.right {
+    float: right;
+    margin-left: 20px; /* Tambahkan jarak antar tombol di kanan */
+}
+
+nav ul li.right a {
+    margin-top: 2.5px;
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+/* Hover effect untuk navbar kanan */
+nav ul li.right a:hover {
+    background-color: #0056b3; /* Warna hover sedikit lebih gelap */
+}
+
+nav ul li.right a.logout {
+    background-color: red;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* Untuk tiga kolom */
+    margin: 10px 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card img {
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.card-details {
+    flex-grow: 1;
+}
+
+.card-details h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.card-details p {
+    margin: 5px 0;
+    color: #777;
+}
+
+.card-actions {
+    text-align: right;
+}
+
+.card-actions a {
+    display: inline-block;
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.card-actions a:hover {
+    background-color: #004494;
+}
+
+.card-actions a.cancel {
+    background-color: red;
+}
+
+.card-actions a.cancel:hover {
+    background-color: darkred;
+}

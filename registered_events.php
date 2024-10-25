@@ -23,49 +23,38 @@ $result = $conn->query($query);
 <head>
     <title>Registered Events</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/registered_events.css">
 </head>
 <body>
 <nav>
     <ul>
-        <li><a href="user_dashboard.php">Event Browsing</a></li>
         <li><a href="registered_events.php">Event Registration</a></li>
-        <li><a href="user_profile.php">User Profile</a></li>
-        <li><a href="logout.php">Logout</a></li>
+        <li class="right"><a href="logout.php" class="logout">Logout</a></li>
+        <li class="right"><a href="user_profile.php">User Profile</a></li>
+        <li class="right"><a href="about_us.php">About Us</a></li>
+        <li class="right"><a href="user_dashboard.php">Event Browsing</a></li>
     </ul>
 </nav>
 
-    <h1>Your Registered Events</h1>
-
+<div class="cards-container">
     <?php if ($result->num_rows > 0): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Event ID</th>
-                    <th>Event Name</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                    <th>Image</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['event_id']; ?></td>
-                        <td><?php echo $row['event_name']; ?></td>
-                        <td><?php echo $row['event_date']; ?></td>
-                        <td><?php echo $row['location']; ?></td>
-                        <td><img src ="uploads/<?php echo $row['image']; ?>" width="100"></td>
-                        <td>
-                        <a href="view_event_details_user.php?event_id=<?php echo $row['event_id']; ?>">Event Detail </a> | 
-                        <a href="cancel_registration.php?registration_id=<?php echo $row['registration_id']; ?>" onclick="return confirm('Are you sure?');">Cancel Register</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="card">
+                <img src="uploads/<?php echo $row['image']; ?>" alt="Event Image">
+                <div class="card-details">
+                    <h2><?php echo $row['event_name']; ?></h2>
+                    <p><strong>Date:</strong> <?php echo $row['event_date']; ?></p>
+                    <p><strong>Location:</strong> <?php echo $row['location']; ?></p>
+                </div>
+                <div class="card-actions">
+                    <a href="view_event_details_user.php?event_id=<?php echo $row['event_id']; ?>">Event Detail</a>
+                    <a href="cancel_registration.php?registration_id=<?php echo $row['registration_id']; ?>" class="cancel" onclick="return confirm('Are you sure?');">Cancel Register</a>
+                </div>
+            </div>
+        <?php endwhile; ?>
     <?php else: ?>
         <p>You have not registered for any events yet.</p>
     <?php endif; ?>
+</div>
 </body>
 </html>

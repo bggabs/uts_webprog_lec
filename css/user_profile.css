@@ -1,0 +1,134 @@
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li:first-child {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 28px; /* Ukuran navbar setara dengan h1 */
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+/* Style navbar di kanan dengan jarak */
+nav ul li.right {
+    float: right;
+    margin-left: 20px; /* Tambahkan jarak antar tombol di kanan */
+}
+
+nav ul li.right a {
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+/* Hover effect untuk navbar kanan */
+nav ul li.right a:hover {
+    background-color: #0056b3; /* Warna hover sedikit lebih gelap */
+}
+
+nav ul li.right a.logout {
+    background-color: red;
+}
+
+/* Main Container Box */
+.container {
+    margin: 30px auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Sudut melengkung */
+    text-align: center; /* Konten di tengah */
+}
+
+/* Profile Information & Edit Profile */
+.profile-info, .edit-profile {
+    margin-bottom: 20px;
+}
+
+.profile-info p, .edit-profile form label {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+/* Input Fields & Submit Button */
+form input[type="text"], form input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Sudut melengkung */
+    width: 100%;
+    margin: 10px 0;
+}
+
+form input[type="submit"] {
+    padding: 12px 15px;
+    background-color: #0056b3; /* Warna biru untuk tombol */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px; /* Sudut melengkung */
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #004494;
+}
+
+/* Change Password Link */
+p a {
+    text-decoration: none;
+    color: #0056b3;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Back to Dashboard Link */
+div a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    width: 50%;
+    margin: 20px auto;
+    border-radius: 10px; /* Sudut melengkung */
+}
+
+div a:hover {
+    background-color: #004494;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    form input[type="submit"], div a {
+        width: 100%;
+    }
+}

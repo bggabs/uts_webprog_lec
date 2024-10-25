@@ -1,106 +1,161 @@
 <?php
 session_start();
-require 'db_connection.php';  // Koneksi ke database
+require 'db_connection.php';
+
+$errors = array();
 
 if (isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $password2 = $_POST['password2'];  // Konfirmasi password
-    $role = $_POST['role'];
+    $password2 = $_POST['password2'];
     $role = $_POST['role'];
 
-    // Cek apakah password dan konfirmasi password sama
+    if (empty($name) || empty($email) || empty($password) || empty($password2)) {
+        $errors[] = "Semua form harus diisi.";
+    }
+
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Format email tidak valid.";
+    }
+
     if ($password !== $password2) {
-        echo "Password dan konfirmasi password tidak sama. <a href='register.php'>Coba lagi</a>";
-        exit();
+        $errors[] = "Password dan konfirmasi password tidak sama.";
     }
 
-    // Lanjutkan dengan hashing password setelah konfirmasi
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    if (empty($errors)) {
 
-    // Token untuk admin
-    if ($role == 'admin') {
-        $token = $_POST['token'];
-        if ($token == 'admin_token') {  // 'admin_token' adalah token yang harus diketahui untuk register jadi admin
-            $role = 'admin';
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        if ($role == 'admin') {
+            $token = $_POST['token'];
+            if ($token == 'admin_token') { 
+                $role = 'admin';
+            } else {
+                $errors[] = "Token admin salah.";
+            }
         } else {
-            echo "Token admin salah. <br/><a href='register.php'>Coba lagi</a>";
-            exit();
+            $role = 'user';
         }
-    } else {
-        $role = 'user';
-    }
 
-    // Cek jika email sudah ada di database
-    $check_email = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $check_email->bind_param("s", $email);
-    $check_email->execute();
-    $result = $check_email->get_result();
+        if (empty($errors)) {
+            $check_email = $conn->prepare("SELECT * FROM users WHERE email = ?");
+            $check_email->bind_param("s", $email);
+            $check_email->execute();
+            $result = $check_email->get_result();
 
-    if ($result->num_rows == 0) {
-        // Simpan data user ke database
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $name, $email, $hashed_password, $role);
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Registrasi berhasil. Silakan login.";
-            header("Location: login.php");
-            exit();
-        } else {
-            echo "Registrasi gagal.";
+            if ($result->num_rows == 0) {
+                $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $name, $email, $hashed_password, $role);
+                if ($stmt->execute()) {
+                    $_SESSION['success_message'] = "Registrasi berhasil. Silakan login.";
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    $errors[] = "Registrasi gagal.";
+                }
+            } else {
+                $errors[] = "Email sudah terdaftar.";
+            }
         }
-    } else {
-        echo "Email sudah terdaftar.";
     }
 }
 ?>
 
-<!-- Form Registrasi -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="css/register.css">
     <script>
-        // JavaScript untuk menampilkan atau menyembunyikan input token
         function toggleTokenInput() {
             var role = document.getElementById("role").value;
             var tokenField = document.getElementById("tokenField");
-
             if (role === "admin") {
-                tokenField.style.display = "block"; // Tampilkan input token
+                tokenField.style.display = "block";
             } else {
-                tokenField.style.display = "none";  // Sembunyikan input token
+                tokenField.style.display = "none";
             }
+        }
+
+        function validateForm() {
+            var name = document.forms["registerForm"]["name"].value;
+            var email = document.forms["registerForm"]["email"].value;
+            var password = document.forms["registerForm"]["password"].value;
+            var password2 = document.forms["registerForm"]["password2"].value;
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            var errorMessage = "";
+
+            if (name == "" || email == "" || password == "" || password2 == "") {
+                errorMessage += "Semua form harus diisi.<br>";
+            }
+
+            if (!emailPattern.test(email)) {
+                errorMessage += "Format email tidak valid.<br>";
+            }
+
+            if (password !== password2) {
+                errorMessage += "Password dan konfirmasi password tidak sama.<br>";
+            }
+
+            if (errorMessage != "") {
+                document.getElementById("errorMessages").innerHTML = errorMessage;
+                return false;
+            }
+            return true;
         }
     </script>
 </head>
 <body>
-    <h2>Register</h2>
-    <form action="register.php" method="POST">
-        <label>Name:</label><br>
-        <input type="text" name="name" required><br>
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br>
-        <label>Konfirmasi Password:</label><br>
-        <input type="password" name="password2" required><br>
+    <div class="register-container">
+        <form name="registerForm" action="register.php" method="POST" onsubmit="return validateForm()">
+            <h2>Register</h2>
+            <div class="input-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <div class="input-group">
+                <label for="password2">Konfirmasi Password:</label>
+                <input type="password" name="password2" id="password2" required>
+            </div>
+            <div class="input-group">
+                <label for="role">Role:</label>
+                    <select name="role" id="role" onchange="toggleTokenInput()" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+            </div>
 
-        <!-- Dropdown untuk memilih role -->
-        <label>Role:</label><br>
-        <select name="role" id="role" onchange="toggleTokenInput()" required>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select><br>
+            <div id="tokenField" class="input-group" style="display:none;">
+                <label for="token">Admin Token:</label>
+                <input type="text" name="token" id="token" placeholder="Enter admin token">
+            </div>
 
-        <!-- Input token yang hanya muncul jika role admin dipilih -->
-        <div id="tokenField" style="display:none;">
-            <label>Admin Token:</label><br>
-            <input type="text" name="token" placeholder="Enter admin token"><br>
-        </div><br>
+            <div id="errorMessages" class="error-messages">
+                <?php if (!empty($errors)): ?>
+                    <?php foreach ($errors as $error): ?>
+                        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
 
-        <input type="submit" name="register" value="Register">
-    </form>
-    <p><a href="login.php">Kembali ke login</a></p>
+            <div class="input-group">
+                <input type="submit" name="register" value="Register">
+            </div>
+        </form>
+        <p><a href="login.php">Kembali ke login</a></p>
+    </div>
 </body>
 </html>

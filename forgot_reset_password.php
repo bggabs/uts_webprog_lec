@@ -61,13 +61,14 @@ if (isset($_POST['reset_password'])) {
 }
 ?>
 
-<!-- Form Lupa dan Reset Password -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Forgot/Reset Password</title>
+    <link rel="stylesheet" type="text/css" href="css/forgot_password.css"> <!-- Tambahkan link CSS -->
 </head>
 <body>
+    <div class="container"> <!-- Tambahkan div container -->
     <?php if (isset($_GET['token'])): ?>
         <!-- Form Reset Password -->
         <h2>Reset Password</h2>
@@ -86,5 +87,13 @@ if (isset($_POST['reset_password'])) {
             <input type="submit" name="forgot_password" value="Send Reset Link">
         </form>
     <?php endif; ?>
+
+    <!-- Tautan Kembali ke halaman Login -->
+    <p class="back-to-login"><a href="login.php">Kembali ke halaman Login</a></p>
+    </div>
 </body>
 </html>
+
+
+
+

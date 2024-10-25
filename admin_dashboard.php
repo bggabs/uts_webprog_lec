@@ -2,13 +2,11 @@
 session_start();
 require 'db_connection.php';
 
-// Pastikan hanya admin yang bisa mengakses
 if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Query untuk menghitung total event berdasarkan status
 $query_total_events = $conn->query("SELECT COUNT(*) AS total_events FROM events");
 $total_events = $query_total_events->fetch_assoc()['total_events'];
 
@@ -24,7 +22,6 @@ $canceled_events = $query_canceled_events->fetch_assoc()['canceled_events'];
 $query_registrations = $conn->query("SELECT COUNT(*) AS total_registrations FROM registrations");
 $total_registrations = $query_registrations->fetch_assoc()['total_registrations'];
 
-// Proses filter pencarian berdasarkan kategori
 $filter = "";
 if (isset($_POST['filter'])) {
     $filter_date = $_POST['filter_date'];
@@ -38,7 +35,6 @@ if (isset($_POST['filter'])) {
     }
 }
 
-// Ambil daftar event dari database dengan filter
 $query = "SELECT e.*, (SELECT COUNT(*) FROM registrations r WHERE r.event_id = e.event_id) AS current_participants FROM events e WHERE 1=1 $filter ORDER BY event_date ASC";
 $events = $conn->query($query);
 ?>
@@ -49,7 +45,7 @@ $events = $conn->query($query);
     <title>Admin Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin_dashboard.css">
+    <link rel="stylesheet" href="css\admin_dashboard.css">
 </head>
 <body>
     <nav>
@@ -81,52 +77,50 @@ $events = $conn->query($query);
         </div>
     </div>
 
-    <!-- Form filter pencarian -->
-<form action="event_management.php" method="POST">
-    <h2>Filter Events</h2>
-    <label for="filter_date">Filter by Date:</label>
-    <input type="date" id="filter_date" name="filter_date">
-    
-    <label for="filter_status">Filter by Status:</label>
-    <select id="filter_status" name="filter_status">
-        <option value="">-- Select Status --</option>
-        <option value="open">Open</option>
-        <option value="closed">Closed</option>
-        <option value="canceled">Canceled</option>
-    </select>
-    <input type="submit" name="filter" value="Filter">
-</form>
+    <form action="event_management.php" method="POST">
+        <h2>Filter Events</h2>
+        <label for="filter_date">Filter by Date:</label>
+        <input type="date" id="filter_date" name="filter_date">
+        
+        <label for="filter_status">Filter by Status:</label>
+        <select id="filter_status" name="filter_status">
+            <option value="">-- Select Status --</option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+            <option value="canceled">Canceled</option>
+        </select>
+        <input type="submit" name="filter" value="Filter">
+    </form>
 
-<!-- Tabel untuk menampilkan event yang ada -->
-<h2>Existing Events</h2>
-<table border="1">
-    <tr>
-        <th>No</th>
-        <th>Event Name</th>
-        <th>Date</th>
-        <th>Max Participants</th>
-        <th>Current Participants</th>
-        <th>Status</th>
-        <th>Image</th>
-        <th>Actions</th>    
-    </tr>
-    <?php     
-    $no_urut = 1;
-    while ($row = $events->fetch_assoc()) { ?>
-    <tr>
-        <td><?php echo $no_urut++; ?></td>
-        <td><?php echo $row['event_name']; ?></td>
-        <td><?php echo $row['event_date']; ?></td>
-        <td><?php echo $row['max_participants']; ?></td>
-        <td><?php echo $row['current_participants']; ?></td>
-        <td><?php echo ucfirst($row['status']); ?></td>
-        <td><img src="uploads/<?php echo $row['image']; ?>" width="100"></td>
-        <td>
-            <a href="view_event_details.php?event_id=<?php echo $row['event_id']; ?>">View Details</a> |
-            <a href="view_registrations.php?event_id=<?php echo $row['event_id']; ?>">View Registrations</a>
-        </td>
-    </tr>
-    <?php } ?>
-</table>
+    <h2>Existing Events</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Max Participants</th>
+            <th>Current Participants</th>
+            <th>Status</th>
+            <th>Image</th>
+            <th>Actions</th>    
+        </tr>
+        <?php     
+        $no_urut = 1;
+        while ($row = $events->fetch_assoc()) { ?>
+        <tr>
+            <td><?php echo $no_urut++; ?></td>
+            <td><?php echo $row['event_name']; ?></td>
+            <td><?php echo $row['event_date']; ?></td>
+            <td><?php echo $row['max_participants']; ?></td>
+            <td><?php echo $row['current_participants']; ?></td>
+            <td><?php echo ucfirst($row['status']); ?></td>
+            <td><img src="uploads/<?php echo $row['image']; ?>" width="100"></td>
+            <td>
+                <a href="view_event_details.php?event_id=<?php echo $row['event_id']; ?>">View Details</a> |
+                <a href="view_registrations.php?event_id=<?php echo $row['event_id']; ?>">View Registrations</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
 </body>
 </html>

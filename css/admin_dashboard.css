@@ -1,3 +1,11 @@
+/* Reset default margin dan padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar styling */
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -7,10 +15,6 @@ nav ul {
 }
 
 nav ul li {
-    float: left;
-}
-
-nav ul li:first-child {
     float: left;
 }
 
@@ -71,7 +75,7 @@ nav ul li.right a.logout {
     margin-bottom: 10px;
 }
 
-h2 {
+h1 {
     text-align: center;
     font-size: 36px; /* Ukuran tulisan diperbesar */
     font-family: 'Arial', sans-serif; /* Gaya huruf diperbarui */
@@ -121,27 +125,37 @@ form input[type="submit"]:hover {
     background-color: #45a049;
 }
 
-/* Style untuk event cards */
+/* Style untuk kontainer acara */
+.event-container {
+    display: flex;
+    flex-wrap: wrap; /* Agar kartu dapat dibungkus di baris baru */
+    justify-content: space-between; /* Penataan kartu */
+    margin: 20px auto; /* Margin agar kontainer berada di tengah */
+    width: 90%; /* Agar kontainer tidak terlalu lebar */
+}
+
+/* Style untuk kartu acara */
 .event-card {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Spasi antara gambar dan detail */
     align-items: center;
-    width: 90%; /* Ubah dari 100% menjadi 90% agar tidak terlalu lebar */
-    margin: 20px auto; /* Kartu berada di tengah dengan margin auto */
+    width: 100%; /* Kartu menggunakan lebar penuh */
+    margin: 20px 0; /* Jarak antara kartu */
     background-color: #f9f9f9;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 
+/* Style untuk gambar dalam kartu acara */
 .event-card img {
     height: 150px; /* Tinggi gambar tetap */
     width: auto; /* Lebar otomatis sesuai tinggi */
     border-radius: 10px;
-    margin-right: 20px;
+    margin-right: 20px; /* Jarak gambar dan detail */
 }
 
-/* Perbaikan tampilan event details */
+/* Style untuk rincian acara */
 .event-details {
     flex-grow: 1;
     margin-left: 20px;
@@ -157,7 +171,7 @@ form input[type="submit"]:hover {
     font-size: 16px;
 }
 
-/* Tombol action di sebelah kanan tetap */
+/* Tombol aksi di sebelah kanan */
 .event-action {
     display: flex;
     align-items: center;

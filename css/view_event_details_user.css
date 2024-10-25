@@ -1,0 +1,231 @@
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333; /* Latar belakang navbar hitam */
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li:first-child {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 28px; /* Ukuran teks navbar setara dengan h1 */
+    color: white; /* Warna teks navbar putih */
+}
+
+nav ul li a:hover {
+    background-color: #40E0D0; /* Warna hover navbar biru toska */
+}
+
+/* Style navbar untuk tombol di sebelah kanan */
+nav ul li.right {
+    float: right;
+    margin-left: 20px; /* Jarak antar tombol di bagian kanan */
+}
+
+nav ul li.right a {
+    margin-top: 2.5px;
+    background-color: #40E0D0; /* Warna background tombol navbar kanan biru toska */
+    color: white; /* Warna teks tombol navbar kanan putih */
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+/* Hover effect untuk tombol navbar di kanan */
+nav ul li.right a:hover {
+    background-color: #2ba8a0; /* Warna hover tombol kanan lebih gelap dari biru toska */
+}
+
+nav ul li.right a.logout {
+    background-color: red; /* Warna tombol logout merah */
+}
+
+/* Card Container Styles */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Card Styles */
+.card {
+    background-color: #fff; /* Latar belakang putih untuk card */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan lembut untuk card */
+    width: calc(33.333% - 20px); /* Lebar untuk tiga kolom */
+    margin: 10px 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card img {
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.card-details {
+    flex-grow: 1;
+}
+
+.card-details h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333; /* Warna teks judul card gelap */
+}
+
+.card-details p {
+    margin: 5px 0;
+    color: #777; /* Warna teks deskripsi card abu-abu */
+}
+
+/* Card Actions Styles */
+.card-actions {
+    text-align: right;
+}
+
+.card-actions a {
+    display: inline-block;
+    background-color: #40E0D0; /* Warna background tombol biru toska */
+    color: white; /* Warna teks putih pada tombol */
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.card-actions a:hover {
+    background-color: #2ba8a0; /* Warna tombol saat di-hover lebih gelap dari biru toska */
+}
+
+.card-actions a.cancel {
+    background-color: red; /* Warna tombol cancel merah */
+}
+
+.card-actions a.cancel:hover {
+    background-color: darkred; /* Warna tombol cancel saat di-hover lebih gelap */
+}
+
+/* Style untuk body */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #2c3e50, #3498db); /* Gradien warna */
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style untuk navbar */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7); /* Transparan hitam */
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #fff; /* Teks navbar putih */
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    background-color: #2980b9; /* Efek hover biru */
+}
+
+/* Style untuk container utama */
+h1, h2, p {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Style untuk konten */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Warna background putih semi-transparan */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 50px auto;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
+}
+
+h1 {
+    font-size: 36px;
+    color: #3498db; /* Biru */
+}
+
+h2 {
+    font-size: 28px;
+    color: #2c3e50; /* Biru gelap */
+}
+
+p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Style untuk gambar event */
+img {
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Bayangan untuk gambar */
+}
+
+/* Style untuk footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsif */
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}

@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
 
-    // Update user profile in the database
     $update_query = "UPDATE users SET name = '$name', email = '$email' WHERE user_id = '$user_id'";
 
     if ($conn->query($update_query) === TRUE) {

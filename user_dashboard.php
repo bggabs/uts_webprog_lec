@@ -48,16 +48,15 @@ $events = $conn->query($query);
     <link rel="stylesheet" href="css/user_dashboard.css">
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="user_dashboard.php">Event Browsing</a></li>
-        <li class="right"><a href="logout.php" class="logout">Logout</a></li>
-        <li class="right"><a href="user_profile.php">User Profile</a></li>
-        <li class="right"><a href="about_us.php">About Us</a></li>
-        <li class="right"><a href="registered_events.php">Event Registration</a></li>
-    </ul>
-</nav>
-
+    <nav>
+        <ul>
+            <li><a href="user_dashboard.php">Event Browsing</a></li>
+            <li class="right"><a href="logout.php" class="logout">Logout</a></li>
+            <li class="right"><a href="user_profile.php">User Profile</a></li>
+            <li class="right"><a href="about_us.php">About Us</a></li>
+            <li class="right"><a href="registered_events.php">Event Registration</a></li>
+        </ul>
+    </nav>
 
         <div class="dashboard-stats">
             <div class="stat-box">

@@ -2,19 +2,16 @@
 session_start();
 require 'db_connection.php';
 
-// Pastikan hanya admin yang bisa mengakses
 if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Ambil data event berdasarkan event_id
 if (isset($_GET['event_id'])) {
     $event_id = $_GET['event_id'];
     $event = $conn->query("SELECT * FROM events WHERE event_id = $event_id")->fetch_assoc();
 }
 
-// Proses penyimpanan hasil edit event
 if (isset($_POST['edit_event'])) {
     $event_name = $_POST['event_name'];
     $event_date = $_POST['event_date'];
@@ -25,17 +22,15 @@ if (isset($_POST['edit_event'])) {
     $status = $_POST['status'];
     $image_lama = $_POST['image_lama'];
 
-    // Cek apakah user pilih gambar baru atau tidak
     if ($_FILES['image']['error'] === 4) {
-        $image = $image_lama; // Jika tidak pilih, pakai gambar lama
+        $image = $image_lama;
     } else {
-        $image = upload_image(); // Jika pilih, upload gambar baru
+        $image = upload_image();
         if (!$image) {
             $image = $image_lama;
         }
     }
 
-    // Query untuk update data event
     $stmt = $conn->prepare("UPDATE events SET event_name = ?, event_date = ?, event_time = ?, location = ?, description = ?, max_participants = ?, status = ?, image = ? WHERE event_id = ?");
     $stmt->bind_param("sssssissi", $event_name, $event_date, $event_time, $event_location, $event_description, $max_participants, $status, $image, $event_id);
 
@@ -84,8 +79,7 @@ if (isset($_POST['edit_event'])) {
             <option value="closed" <?php echo ($event['status'] == 'closed') ? 'selected' : ''; ?>>Closed</option>
             <option value="canceled" <?php echo ($event['status'] == 'canceled') ? 'selected' : ''; ?>>Canceled</option>
         </select><br><br>
-    
-        <!-- Tambahkan input untuk file gambar -->
+
        <label for="image">Change Event Image:</label><br>
        <input type="file" id="image" name="image" accept="image/*"><br><br>
 

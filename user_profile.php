@@ -24,6 +24,8 @@ $registration_query = $conn->query("SELECT e.event_id, e.event_name, r.registrat
 <html lang="en">
 <head>
     <title>User Profile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/user_profile.css">
 </head>
 <body>

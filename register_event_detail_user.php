@@ -7,22 +7,18 @@ if ($_SESSION['role'] !== 'user') {
     exit();
 }
 
-// Ambil detail event berdasarkan ID
 if (isset($_GET['event_id'])) {
     $event_id = $_GET['event_id'];
     $event = $conn->query("SELECT * FROM events WHERE event_id = $event_id")->fetch_assoc();
 }
 
-// Handle event registration
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
 
-    // Cek apakah pengguna sudah terdaftar untuk event ini
     $check_query = "SELECT COUNT(*) AS count FROM registrations WHERE user_id = '$user_id' AND event_id = '$event_id'";
     $check_result = $conn->query($check_query);
     $is_registered = $check_result->fetch_assoc()['count'] > 0;
 
-    // Cek jumlah peserta saat ini
     $current_participants_query = "SELECT COUNT(*) AS current_participants FROM registrations WHERE event_id = '$event_id'";
     $current_participants_result = $conn->query($current_participants_query);
     $current_participants = $current_participants_result->fetch_assoc()['current_participants'];
@@ -32,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($current_participants >= $event['max_participants']) {
         echo "<p>Maaf, jumlah peserta sudah mencapai batas maksimum.</p>";
     } else {
-        // Jika belum terdaftar dan jumlah peserta belum mencapai maksimum, lakukan pendaftaran
         $query = "INSERT INTO registrations (user_id, event_id, registration_date) VALUES ('$user_id', '$event_id', CURRENT_TIMESTAMP)";
         
         if ($conn->query($query) === TRUE) {
@@ -63,8 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p><strong>Status:</strong> <?php echo ucfirst($event['status']); ?></p>
 
     <img src="uploads/<?php echo $event['image']; ?>" width="200">
-    
-    <!-- Registration Form --> 
+
     <h2>Register for this Event</h2>
     <form method="POST" action="">
         <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">

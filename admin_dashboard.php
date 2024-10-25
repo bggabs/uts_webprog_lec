@@ -47,10 +47,11 @@ $events = $conn->query($query);
 <html lang="en">
 <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link ke file CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin_dashboard.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav>
         <ul>
             <li><a href="event_management.php">Events Management</a></li>

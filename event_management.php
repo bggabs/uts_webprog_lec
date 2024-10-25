@@ -2,13 +2,11 @@
 session_start();
 require 'db_connection.php';
 
-// Pastikan hanya admin yang bisa mengakses
 if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Proses penambahan event baru
 if (isset($_POST['add_event'])) {
     $event_name = $_POST['event_name'];
     $event_date = $_POST['event_date'];
@@ -18,11 +16,9 @@ if (isset($_POST['add_event'])) {
     $max_participants = $_POST['max_participants'];
     $status = $_POST['status'];
 
-    // Penanganan upload gambar
-    $image = upload_image(); // fungsi upload image
+    $image = upload_image();
 
     if ($image) {
-        // Siapkan query untuk menambah data ke database
         $stmt = $conn->prepare("INSERT INTO events (event_name, event_date, event_time, location, description, max_participants, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssiss", $event_name, $event_date, $event_time, $event_location, $event_description, $max_participants, $status, $image);
 
@@ -38,20 +34,17 @@ if (isset($_POST['add_event'])) {
     }
 }
 
-// Fungsi upload image
 function upload_image() {
     $namaFile = $_FILES['image']['name'];
     $ukuranFile = $_FILES['image']['size'];
     $error = $_FILES['image']['error'];
     $tmpName = $_FILES['image']['tmp_name'];
 
-    // Cek apakah tidak ada gambar yang diupload
     if ($error === 4) {
         echo "<script>alert('Pilih gambar terlebih dahulu!');</script>";
         return false;
     }
 
-    // Cek apakah yang diupload adalah gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = strtolower(pathinfo($namaFile, PATHINFO_EXTENSION));
 
@@ -60,13 +53,11 @@ function upload_image() {
         return false;
     }
 
-    // Cek jika ukurannya terlalu besar (misal, 2MB)
     if ($ukuranFile > 2000000) {
         echo "<script>alert('Ukuran gambar terlalu besar!');</script>";
         return false;
     }
 
-    // Generate nama gambar baru yang unik
     $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
     $target_dir = "uploads/";
     $target_file = $target_dir . $namaFileBaru;
@@ -79,7 +70,6 @@ function upload_image() {
     }
 }
 
-// Proses filter pencarian berdasarkan kategori
 $filter = "";
 if (isset($_POST['filter'])) {
     $filter_date = $_POST['filter_date'];
@@ -93,7 +83,6 @@ if (isset($_POST['filter'])) {
     }
 }
 
-// Ambil daftar event dari database dengan filter
 $query = "SELECT e.*, (SELECT COUNT(*) FROM registrations r WHERE r.event_id = e.event_id) AS current_participants FROM events e WHERE 1=1 $filter ORDER BY event_date ASC";
 $events = $conn->query($query);
 ?>
@@ -102,15 +91,13 @@ $events = $conn->query($query);
 <html lang="en">
 <head>
     <title>Event Management</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link ke file CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Event Management</h1>
 
-    <!-- Tombol untuk menambahkan event -->
     <button onclick="document.getElementById('addEventForm').style.display='block'">Add New Event</button>
 
-    <!-- Form filter pencarian -->
     <form action="event_management.php" method="POST">
         <h2>Filter Events</h2>
         <label for="filter_date">Filter by Date:</label>
@@ -126,7 +113,6 @@ $events = $conn->query($query);
         <input type="submit" name="filter" value="Filter">
     </form>
 
-    <!-- Form untuk menambah event baru (tersembunyi sampai tombol ditekan) -->
     <div id="addEventForm" style="display:none;">
         <form action="event_management.php" method="POST" enctype="multipart/form-data">
             <h2>Add New Event</h2>
@@ -154,7 +140,6 @@ $events = $conn->query($query);
         </form>
     </div>
 
-    <!-- Tabel untuk menampilkan event yang ada -->
     <h2>Existing Events</h2>
     <table border="1">
         <tr>

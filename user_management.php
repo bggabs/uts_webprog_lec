@@ -2,13 +2,11 @@
 session_start();
 require 'db_connection.php';
 
-// Cek apakah user adalah admin
 if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Ambil daftar pengguna dan registrasi event mereka
 $query_users = "
     SELECT u.user_id, u.name, u.email, u.role, u.created_at, e.event_name, r.registration_date, r.registration_id
     FROM users u

@@ -1,0 +1,178 @@
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li:first-child {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 28px; /* Ukuran navbar setara dengan h1 */
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+/* Style navbar di kanan dengan jarak */
+nav ul li.right {
+    float: right;
+    margin-left: 20px; /* Tambahkan jarak antar tombol di kanan */
+}
+
+nav ul li.right a {
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+/* Hover effect untuk navbar kanan */
+nav ul li.right a:hover {
+    background-color: #0056b3; /* Warna hover sedikit lebih gelap */
+}
+
+nav ul li.right a.logout {
+    background-color: red;
+}
+
+/* Container box untuk statistik event */
+.dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.stat-box {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box h2 {
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 36px; /* Ukuran tulisan diperbesar */
+    font-family: 'Arial', sans-serif; /* Gaya huruf diperbarui */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.stat-box p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style untuk filter event */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+form input[type="date"],
+form select {
+    font-size: 16px;
+    padding: 8px;
+    margin: 10px;
+    width: 200px;
+}
+
+form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Style untuk event cards */
+.event-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%; /* Ubah dari 100% menjadi 90% agar tidak terlalu lebar */
+    margin: 20px auto; /* Kartu berada di tengah dengan margin auto */
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.event-card img {
+    height: 150px; /* Tinggi gambar tetap */
+    width: auto; /* Lebar otomatis sesuai tinggi */
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+/* Perbaikan tampilan event details */
+.event-details {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.event-details h3 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.event-details p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Tombol action di sebelah kanan tetap */
+.event-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-action a {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.event-action a:hover {
+    background-color: #45a049;
+}

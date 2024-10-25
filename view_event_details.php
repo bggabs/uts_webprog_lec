@@ -7,7 +7,6 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Ambil detail event berdasarkan ID
 if (isset($_GET['event_id'])) {
     $event_id = $_GET['event_id'];
     $event = $conn->query("SELECT * FROM events WHERE event_id = $event_id")->fetch_assoc();
